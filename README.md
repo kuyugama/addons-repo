@@ -57,9 +57,28 @@ To expose it on custom port change `APP_PORT` value in your `.env` file
     uvicorn main:app
     ```
 
-## About project
+# Details
 
-### Authorization
+## Why
+My purpose was to make place where addons can be stored(addons from `addon-system` library). 
+Also, this place must support encryption to safely store addons files.
+
+## Storing addons
+Addons are stored in .py.baked format(from `pybaked` library). 
+And can be encrypted using AES encryption to ensure safety of addon's content
+
+## Addon encryption
+Addons are encrypted using AES-GCM encryption with dynamic keys generation.
+Each version of addon is encrypted using its own encryption key, 
+this key is generated once version is published and encrypted with 
+addon's owner's public key, so only owner can get this key to decrypt addon file.
+
+After encryption addon file has the following structure:
+```
+[IV 12 bytes] [Encrypted content, batch size 64 kb] [authentication tag, 16 bytes]
+```
+
+## Authorization
 To authorize you need to provide RSA public key
 (size: 2048, exponent: 65537) serialized using DER format 
 with SubjectPublicKeyInfo standard encoded using base64.
