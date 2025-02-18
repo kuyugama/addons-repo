@@ -42,13 +42,17 @@ To expose it on custom port change `APP_PORT` value in your `.env` file
     ```bash
     uv sync
     ```
+4. Apply database migrations:
+   ```bash
+   alembic upgrade head
+   ```
 
-4. Install uvicorn:
+5. Install uvicorn:
     ```bash
     uv pip install uvicorn
     ```
 
-5. Run:
+6. Run:
     ```bash
     uvicorn main:app
     ```
