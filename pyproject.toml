@@ -1,0 +1,44 @@
+[project]
+name = "addons-repo"
+version = "1.0.0"
+description = "One repo for all addons"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = ["kuyugama <mail.kuyugama@gmail.com>"]
+dependencies = [
+    "addon-system>=1.2.20",
+    "alembic>=1.14.1",
+    "asyncpg>=0.30.0",
+    "bcrypt>=4.2.1",
+    "cryptography>=44.0.0",
+    "dynaconf>=3.2.7",
+    "ecdsa>=0.19.0",
+    "fastapi[standard]>=0.115.8",
+    "pybaked>=0.0.16",
+    "pycryptodome>=3.21.0",
+    "sqlalchemy>=2.0.37",
+]
+license = "LICENSE.md"
+
+[dependency-groups]
+dev = [
+    "async-asgi-testclient>=1.4.11",
+    "black>=25.1.0",
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.3",
+    "pytest-postgresql>=6.1.1",
+]
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib"
+]
+pythonpath = ["."]
+python_functions = "test_*"
+python_files = "test_*.py"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope="session"
+filterwarnings = [
+    "ignore::DeprecationWarning"
+]
+

@@ -1,0 +1,58 @@
+volumes:
+  postgresql-data:
+
+services:
+  postgres:
+    container_name: postgres.addon-repo
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+
+    healthcheck:
+      test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DATABASE}
+      interval: 5s
+      retries: 5
+
+    volumes:
+      - postgresql-data:/var/lib/postgresql/
+
+    restart: unless-stopped
+
+  migrations:
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    container_name: migrate.addon-repo
+
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: "alembic upgrade head"
+
+    volumes:
+      - ./secrets.yaml:/app/.secrets.yaml
+
+    restart: "no"
+
+  main-service:
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
+    container_name: addon-repo
+
+    build:
+      dockerfile: Dockerfile
+      context: .
+
+    volumes:
+      - ./settings.yaml:/app/settings.yaml
+      - ./secrets.yaml:/app/.secrets.yaml
+      - ./addons:/app/addons
+
+    ports:
+      - "${APP_PORT}:8000"
+
+    restart: unless-stopped

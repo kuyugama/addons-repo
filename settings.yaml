@@ -1,0 +1,11 @@
+app:
+  title: Addon Repo
+  version: 1.0.0
+
+token:
+  # 2 hours
+  ttl: 2 * 60 * 60
+
+uploads:
+  addons:
+    dir: addons/

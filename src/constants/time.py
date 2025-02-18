@@ -1,0 +1,11 @@
+second = 1
+minute = second * 60
+hour = minute * 60
+day = hour * 24
+week = day * 7
+month_28 = day * 28
+month_29 = day * 29
+month_30 = day * 30
+month_31 = day * 31
+year = day * 365
+leap_year = day * 366
