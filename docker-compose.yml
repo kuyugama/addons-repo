@@ -33,7 +33,7 @@ services:
     command: "alembic upgrade head"
 
     volumes:
-      - ./secrets.yaml:/app/.secrets.yaml
+      - ./.secrets.yaml:/app/.secrets.yaml
 
     restart: "no"
 
@@ -49,7 +49,7 @@ services:
 
     volumes:
       - ./settings.yaml:/app/settings.yaml
-      - ./secrets.yaml:/app/.secrets.yaml
+      - ./.secrets.yaml:/app/.secrets.yaml
       - ./addons:/app/addons
 
     ports:
